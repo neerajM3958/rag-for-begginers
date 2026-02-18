@@ -1,6 +1,6 @@
 from langchain_core.documents.base import Document
 from langchain_text_splitters import CharacterTextSplitter
-from app.util import get_logger
+from app.utils import get_logger
 
 logger = get_logger()
 

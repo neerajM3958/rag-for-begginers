@@ -2,7 +2,7 @@ import os
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from langchain_core.documents.base import Document
-from app.util import get_logger
+from app.utils import get_logger
 
 logger = get_logger()
 default_persist_directory = "db/open_ai_chroma_db"

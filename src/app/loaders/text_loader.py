@@ -1,7 +1,7 @@
 import os
 from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain_core.documents.base import Document
-from app.util import get_logger
+from app.utils import get_logger
 
 logger = get_logger()
 
