@@ -4,43 +4,16 @@ from app.utils.logging_util import get_logger
 from langchain_core.messages import HumanMessage, SystemMessage
 
 def simple_user_prompt(docs: List[Document], query: str):
-    formatted_docs = "\n\n".join(
-        [
-            f"Document {i+1}:\n{doc.page_content}"
-            for i, doc in enumerate(docs)
-        ]
-    )
-
-    return f"""
-    Answer the question using the provided documents.
-
-    Question:
-    {query}
+    return f"""Based on the following documents, please answer this question: {query}
 
     Documents:
-    {formatted_docs}
+    {chr(10).join([f"- {doc.page_content}" for doc in docs])}
 
-    Instructions:
-    - Base your answer only on the documents.
-    - If the answer is not contained in the documents, respond with the refusal sentence exactly as specified.
+    Please provide a clear, helpful answer using only the information from these documents. If you can't find the answer in the documents, say "I don't have enough information to answer that question based on the provided documents."
     """
     
 def simple_system_prompt():
-    return """
-    You are a question-answering assistant that must use ONLY the provided documents.
-
-    Rules:
-    - Use only the information present in the documents.
-    - Do NOT use prior knowledge.
-    - Do NOT infer beyond what is written.
-    - If the answer is partially available, answer only the supported part.
-    - If the answer is not present, say:
-
-    "I don't have enough information to answer that question based on the provided documents."
-
-    - Be concise, factual, and avoid repetition.
-    - Do not mention the documents explicitly in your answer.
-    """
+    return "You are a helpful assistant."
     
 def start_chat(welcome_message: str, retriever, model, system_prompt: str = None):
     logger = get_logger()
@@ -50,8 +23,10 @@ def start_chat(welcome_message: str, retriever, model, system_prompt: str = None
         if not query.strip():
             continue
         if query.lower() in ["exit", "quit"]:
+            logger.info("Exiting chat...")
             print("Goodbye!")
             break
+        logger.info(f"User query: {query}")
         doc_chunks = retriever.invoke(query)
         # display results
         logger.info("--- Context ---")

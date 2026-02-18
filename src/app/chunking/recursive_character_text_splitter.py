@@ -1,14 +1,14 @@
 from langchain_core.documents.base import Document
-from langchain_text_splitters import CharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from app.utils import get_logger
 
 logger = get_logger()
 
-def split_text_using_character_splitter(documents: list[Document], chunk_size: int = 1000, chunk_overlap: int = 50) -> list[Document]:
+def split_text_using_recursive_character_splitter(documents: list[Document], chunk_size: int = 1000, chunk_overlap: int = 50) -> list[Document]:
     logger.info("Split documents into smaller chunks with overlap")
     logger.info("Splitting documents into chunks...")
     
-    text_splitter = CharacterTextSplitter(
+    text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size, 
         chunk_overlap=chunk_overlap
     )

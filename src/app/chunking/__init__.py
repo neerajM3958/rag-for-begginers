@@ -1,3 +1,3 @@
-from .character_text_splitter import split_documents_using_character_text_splitter
-
-__all__ = ["split_documents_using_character_text_splitter"]
+from .character_text_splitter import split_text_using_character_splitter
+from .recursive_character_text_splitter import split_text_using_recursive_character_splitter
+__all__ = ["split_text_using_character_splitter", "split_text_using_recursive_character_splitter"]

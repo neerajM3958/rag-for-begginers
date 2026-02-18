@@ -5,8 +5,8 @@ from langchain_core.documents.base import Document
 from app.utils import get_logger
 
 logger = get_logger()
-default_persist_directory = "db/open_ai_chroma_db"
 model = "text-embedding-3-small"
+default_persist_directory = f"db/open_ai_chroma_db"
 
 def get_vector_store(persist_directory: str = default_persist_directory) -> Chroma:
     if os.path.exists(persist_directory):
@@ -27,6 +27,9 @@ def create_vector_store(chunks: list[Document], persist_directory: str = default
     if vectorstore:
         logger.info(f"Vector store already exists at {persist_directory}")
         return vectorstore
+    
+    if not os.path.exists(persist_directory):
+        os.makedirs(persist_directory)
     
     # Create ChromaDB vector store
     logger.info("--- Creating vector store ---")
